@@ -18,7 +18,7 @@ DB_PASSWORD = Ndharma$123
 DB_USER = root
 DB_NAME = CCdb
 DB_DIALECT = mysql
-APP_PORT = 3000
+APP_PORT = 
 
 run application: npm start
 
