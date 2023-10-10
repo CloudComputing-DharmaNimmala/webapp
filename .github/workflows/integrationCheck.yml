@@ -10,9 +10,9 @@ jobs:
       mysql:
         image: mysql:latest
 
-        env:
-          MYSQL_ROOT_PASSWORD: 'Ndharma$123'
-          MYSQL_DATABASE: 'CCdb'
+        # env:
+          # MYSQL_ROOT_PASSWORD: 'Ndharma$123'
+          # MYSQL_DATABASE: 'CCdb'
 
         ports:
           - 3306:3306
