@@ -1,4 +1,5 @@
 // const { Sequelize, DataTypes } = require("sequelize");
+const Sequelize = require("sequelize");
 const mysql = require("mysql2/promise");
 const UserModel = require("../models/user.js");
 const AssignmentModel = require("../models/assignments.js");
@@ -10,7 +11,6 @@ const user = process.env.DB_USER
 const password = process.env.DB_PASSWORD
 const host = process.env.DB_HOST
 const dialect = process.env.DB_DIALECT;
-const { Sequelize } = require("sequelize");
 
 
 const sequelizesync = async () => {
