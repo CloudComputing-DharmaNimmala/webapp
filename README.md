@@ -14,7 +14,7 @@ clone fork repo: git clone git@github.com:NimmalaD/webapp.git
 run npm install to install packages
 
 DB_HOSTNAME = localhost
-DB_PASSWORD = Ndharma$123
+DB_PASSWORD = **********
 DB_USER = root
 DB_NAME = CCdb
 DB_DIALECT = mysql

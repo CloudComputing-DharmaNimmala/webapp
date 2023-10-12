@@ -136,7 +136,7 @@ app.put("/v1/assignments/:id", isAuth, async (req, res, next) => {
         .json({ message: "Forbidden" });
     }
     if(!req.body.name || !req.body.deadline || !req.body.num_of_attempts || !req.body.points){
-        return res.status(400).json({message: "Give valid number"})
+        return res.status(400).json({message: "Provide all fields"})
     }
     if(!Number.isInteger(req.body.num_of_attempts) || !Number.isInteger(req.body.points)){
       return res.status(400).json({message: 'Give valid number'})
