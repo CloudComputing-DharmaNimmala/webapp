@@ -263,7 +263,7 @@ app.use((request, response, next) => {
 // app.listen(3000, () => {
 //   console.log("server listening at 3000");
 // });
-// module.exports = app;
+module.exports = app;
 
 // sequelize.sync().then(() => {
 //   createUser();
