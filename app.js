@@ -16,7 +16,6 @@ app.use(express.urlencoded({ extended: true }));
     await db();
     await sequelize.sync({ alter: true });
     await createUser();
-
     app.listen(process.env.PORT, () => {
       console.log("Server running on port", process.env.PORT);
     });
