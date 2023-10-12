@@ -5,13 +5,6 @@ const bcrypt = require("bcrypt");
 const {sequelize,db,sequelizesync,User,Assignment} = require("./models/index");
 const mysql = require('mysql2')
 
-app.use(express.json());
-
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-
 (async () => {
   try {
     await db();
@@ -25,6 +18,9 @@ app.use(express.urlencoded({ extended: true }));
     console.error("Error:", error);
   }
 })();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const isAuth = async (req, res, next) => {
   const authorizationHeader = req.headers.authorization;
@@ -227,36 +223,36 @@ app.delete("/v1/assignments/:id", isAuth, async (req, res, next) => {
 app.patch('/*', isAuth, async(req,res,next)=>{
     return res.send(405)
 })
+  
+//GET request for health check api
+app.get("/healthz", async (req, res) => {
+  if (Object.keys(req.body).length > 0) {
+    return res.status(400).end();
+  }
+  //should not require params
+  if (Object.keys(req.query).length > 0) {
+    return res.status(400).end();
+  }
+  res.setHeader("Cache-Control", "no-cache");
+  try {
+    // Test the database connection
+    await sequelize.authenticate();
+    console.log("Database connection established successfully.");
+    res.status(200).send();
+  } catch (error) {
+    console.error("Database connection failed:", error);
+    res.status(503).send();
+  }
+});
 
 //Set 405 Method not allowed if the request is not GET
 app.use((request, response, next) => {
-    if (request.method === "GET") {
-      next();
-    } else {
-      response.status(405).send();
-    }
-  });
-  
-  //GET request for health check api
-  app.get("/healthz", async (req, res) => {
-    if (Object.keys(req.body).length > 0) {
-      return res.status(400).end();
-    }
-    //should not require params
-    if (Object.keys(req.query).length > 0) {
-      return res.status(400).end();
-    }
-    res.setHeader("Cache-Control", "no-cache");
-    try {
-      // Test the database connection
-      await sequelize.authenticate();
-      console.log("Database connection established successfully.");
-      res.status(200).send();
-    } catch (error) {
-      console.error("Database connection failed:", error);
-      res.status(503).send();
-    }
-  });
+  if (request.method === "GET") {
+    next();
+  } else {
+    response.status(405).send();
+  }
+});
   
 
 //PORT
