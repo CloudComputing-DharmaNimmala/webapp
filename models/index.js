@@ -4,7 +4,6 @@ const { Sequelize, DataTypes } = require("sequelize");
 const mysql = require("mysql2/promise");
 const UserModel = require("../models/user.js");
 const AssignmentModel = require("../models/assignments.js");
-
 const sequelizesync = async () => {
   await sequelize.sync({ alter: true });
   console.log("Models synchronized successfully.");
