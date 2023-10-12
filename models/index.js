@@ -22,6 +22,9 @@ const sequelize = new Sequelize(
   }
 );
 
+const User = UserModel(sequelize);
+const Assignment = AssignmentModel(sequelize);
+
 
 const sequelizesync = async () => {
   await sequelize.sync({ alter: true });
@@ -37,9 +40,6 @@ const db = async () => {
   });
   await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\`;`);
 };
-
-const User = UserModel(sequelize);
-const Assignment = AssignmentModel(sequelize);
 
 module.exports = {
   sequelize,
