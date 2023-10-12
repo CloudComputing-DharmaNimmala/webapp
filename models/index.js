@@ -12,6 +12,16 @@ const password = process.env.DB_PASSWORD
 const host = process.env.DB_HOST
 const dialect = process.env.DB_DIALECT;
 
+const sequelize = new Sequelize(
+  database,
+  user,
+  password,
+  {
+    host: host,
+    dialect: dialect,
+  }
+);
+
 
 const sequelizesync = async () => {
   await sequelize.sync({ alter: true });
@@ -27,16 +37,6 @@ const db = async () => {
   });
   await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\`;`);
 };
-
-const sequelize = new Sequelize(
-  database,
-  user,
-  password,
-  {
-    host: host,
-    dialect: dialect,
-  }
-);
 
 const User = UserModel(sequelize);
 const Assignment = AssignmentModel(sequelize);
