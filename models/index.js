@@ -41,9 +41,6 @@ const db = async () => {
 const User = UserModel(sequelize);
 const Assignment = AssignmentModel(sequelize);
 
-module.exports = sequelize;
-
-
 module.exports = {
   sequelize,
   db,
