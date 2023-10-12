@@ -2,9 +2,7 @@ const express = require("express");
 const createUser = require("./createUser");
 const app = express();
 const bcrypt = require("bcrypt");
-const User = require("./models/user");
-const Assignment = require("./models/assignments");
-const sequelize = require("./models/index");
+const {sequelize,db,sequelizesync,User,Assignment} = require("./models/index");
 const mysql = require('mysql2')
 
 app.use(express.json());
@@ -13,10 +11,19 @@ app.use(express.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+(async () => {
+  try {
+    await db();
+    await sequelize.sync({ alter: true });
+    await createUser();
 
-sequelize.sync({alter: true}).then(()=> {
-    createUser() 
-})
+    app.listen(3000, () => {
+      console.log("Server running on port", 3000);
+    });
+  } catch (error) {
+    console.error("Error:", error);
+  }
+})();
 
 const isAuth = async (req, res, next) => {
   const authorizationHeader = req.headers.authorization;
@@ -70,7 +77,8 @@ Assignment.belongsTo(User, {
   foreignKey: "user_id",
 });
 
-app.post("/assignments", isAuth, async (req, res) => {
+
+app.post("/v1/assignments", isAuth, async (req, res) => {
   try {
     const postCredentials = getUser(req.headers.authorization);
     const [email] = postCredentials.split(":");
@@ -85,6 +93,11 @@ app.post("/assignments", isAuth, async (req, res) => {
     ) {
       return res.status(400).json({ message: "Please provide all the fields" });
     }
+
+    if(!Number.isInteger(req.body.num_of_attempts) || !Number.isInteger(req.body.points)){
+      return res.status(400).json({message: 'Give valid number'})
+    }
+
     if(req.body.assignment_created || req.body.assignment_updated){
         return res.status(403).json({message: "No access permission"})
     }
@@ -105,7 +118,8 @@ app.post("/assignments", isAuth, async (req, res) => {
   }
 });
 
-app.put("/assignments/:id", isAuth, async (req, res, next) => {
+
+app.put("/v1/assignments/:id", isAuth, async (req, res, next) => {
   const assignmentId = req.params.id;
   try {
     const postCredentials = getUser(req.headers.authorization);
@@ -125,13 +139,16 @@ app.put("/assignments/:id", isAuth, async (req, res, next) => {
         .json({ message: "Forbidden" });
     }
     if(!req.body.name || !req.body.deadline || !req.body.num_of_attempts || !req.body.points){
-        return res.status(400).json({message: "Please provide the fields to update"})
+        return res.status(400).json({message: "Give valid number"})
+    }
+    if(!Number.isInteger(req.body.num_of_attempts) || !Number.isInteger(req.body.points)){
+      return res.status(400).json({message: 'Give valid number'})
     }
     if(req.body.assignment_created || req.body.assignment_updated){
         return res.status(403).json({message: "No access permission"})
     }
     await assignment.update(updatedAssignment).then(()=> {
-        return res.json({ message: "Assignment updated successfully" });
+        return res.status(204).send();
     }).catch((err)=>{
         return res.status(400).json({message:'check min and max'})
     })
@@ -142,7 +159,8 @@ app.put("/assignments/:id", isAuth, async (req, res, next) => {
   }
 });
 
-app.get("/assignments", isAuth, async (req, res, next) => {
+
+app.get("/v1/assignments", isAuth, async (req, res, next) => {
   //const assignmentId = req.params.id;
   try {
     const assignments = await Assignment.findAll();
@@ -156,7 +174,8 @@ app.get("/assignments", isAuth, async (req, res, next) => {
   }
 });
 
-app.get("/assignments/:id", isAuth, async (req, res, next) => {
+
+app.get("/v1/assignments/:id", isAuth, async (req, res, next) => {
   try {
     const assignmentId = req.params.id;
     // Find the assignment by ID
@@ -172,7 +191,8 @@ app.get("/assignments/:id", isAuth, async (req, res, next) => {
   }
 });
 
-app.delete("/assignments/:id", isAuth, async (req, res, next) => {
+
+app.delete("/v1/assignments/:id", isAuth, async (req, res, next) => {
   const assignmentId = req.params.id;
   try {
     const postCredentials = getUser(req.headers.authorization);
@@ -192,7 +212,7 @@ app.delete("/assignments/:id", isAuth, async (req, res, next) => {
         .json({ message: "Forbidden" });
     }
     await assignment.destroy(assignment);
-    res.json({ message: "Assignment deleted successfully" });
+    return res.status(204).send();
   } catch (error) {
     return res.status(500).send()
   }
@@ -246,9 +266,9 @@ app.use((request, response, next) => {
   
 
 //PORT
-app.listen(3000, () => {
-  console.log("server listening at 3000");
-});
+// app.listen(3000, () => {
+//   console.log("server listening at 3000");
+// });
 module.exports = app;
 
 // sequelize.sync().then(() => {
