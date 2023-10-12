@@ -3,7 +3,7 @@ const createUser = require("./createUser");
 const app = express();
 const bcrypt = require("bcrypt");
 const {sequelize,db,sequelizesync,User,Assignment} = require("./models/index");
-const mysql = require('mysql2')
+const mysql = require('mysql2/promise')
 require('dotenv').config();
 app.use(express.json());
 
