@@ -3,7 +3,9 @@ const createUser = require("./createUser");
 const app = express();
 const bcrypt = require("bcrypt");
 const {sequelize,db,sequelizesync,User,Assignment} = require("./models/index");
-const mysql = require('mysql2')
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 (async () => {
   try {
@@ -18,9 +20,6 @@ const mysql = require('mysql2')
     console.error("Error:", error);
   }
 })();
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 const isAuth = async (req, res, next) => {
   const authorizationHeader = req.headers.authorization;
