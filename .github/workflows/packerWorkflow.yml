@@ -13,12 +13,14 @@ jobs:
 
       - name: Install Packer
         run: |
-          wget https://releases.hashicorp.com/packer/1.7.3/packer_1.7.3_linux_amd64.zip
-          unzip packer_1.7.3_linux_amd64.zip
-          sudo mv packer /usr/local/bin/
+          wget https://releases.hashicorp.com/packer/1.8.5/packer_1.8.5_linux_amd64.zip
+          unzip packer_1.8.5_linux_amd64.zip
+          sudo mv packer /usr/local/bin/packer
           packer --version
-      - name: Packer init
-        run: packer init ./webapp.pkr.hcl
+        shell: bash
+        
+      - name: Install packer plugins
+        run: packer plugins install github.com/hashicorp/amazon
           
       - name: Check Packer Format
         run: |
@@ -27,6 +29,6 @@ jobs:
       - name: Check Packer Validate
         run: packer validate ./webapp.pkr.hcl
 
-      - name: Fail the Workflow if Not Formatted
+      - name: Fail the Workflow if Not Formatted 
         if: failure() || failure()
         run: exit 1
