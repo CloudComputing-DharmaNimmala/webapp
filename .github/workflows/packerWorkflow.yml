@@ -17,6 +17,8 @@ jobs:
           unzip packer_1.7.3_linux_amd64.zip
           sudo mv packer /usr/local/bin/
           packer --version
+      - name: Packer init
+        run: packer init ./webapp.pkr.hcl
           
       - name: Check Packer Format
         run: |
