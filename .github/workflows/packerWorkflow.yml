@@ -24,11 +24,6 @@ jobs:
           
       - name: Check Packer Format
         run: |
-          packer fmt -check=true -diff=true -write=false ./webapp.pkr.hcl
-      
-      - name: Check Packer Validate
-        run: packer validate ./webapp.pkr.hcl
-
-      - name: Fail the Workflow if Not Formatted or Validated
-        if: failure() || failure()
-        run: exit 1
+          packer fmt -check ./webapp.pkr.hcl
+          packer validate ./webapp.pkr.hcl
+          echo "validation and packer formatting completed"
