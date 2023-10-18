@@ -85,15 +85,15 @@ build {
     ]
   }
   provisioner "file" {
-    source      = fileexists("dist/main.js") ? "dist/main.js" : "/"
+      source      = fileexists("dist/main.js") ? "dist/main.js" : "/"
     destination = "/home/admin/webapp/dist/main.js"
   }
   provisioner "file" {
-    source      = fileexists(".env") ? ".env" : "/"
+      source      = fileexists(".env") ? ".env" : "/"
     destination = "/home/admin/webapp/.env"
   }
   provisioner "file" {
-    source      = "package.json"
+      source      = "package.json"
     destination = "/home/admin/webapp/package.json"
   }
 }
