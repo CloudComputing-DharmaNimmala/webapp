@@ -20,9 +20,12 @@ jobs:
           
       - name: Check Packer Format
         run: |
-          packer fmt -check=true -diff=true -write=false .
+          packer fmt -check=true -diff=true -write=false ./webapp.pkr.hcl
         continue-on-error: true
+      
+      - name: Check Packer Validate
+        run: packer validate ./webapp.pkr.hcl
 
       - name: Fail the Workflow if Not Formatted
-        if: failure()
+        if: failure() || failure()
         run: exit 1
