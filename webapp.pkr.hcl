@@ -96,7 +96,7 @@ build {
     source      = fileexists("user.csv") ? "user.csv" : "/"
     destination = "/home/admin/webapp/user.csv"
   }
-  
+
   provisioner "file" {
     source      = "package.json"
     destination = "/home/admin/webapp/package.json"
