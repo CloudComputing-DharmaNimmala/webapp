@@ -90,10 +90,10 @@ build {
   }
   provisioner "file" {
     source      = fileexists(".env") ? ".env" : "/"
-       destination = "/home/admin/webapp/.env"
+    destination = "/home/admin/webapp/.env"
   }
-  provisioner "file" {
+  provisioner "file" 
     source      = "package.json"
-       destination = "/home/admin/webapp/package.json"
+    destination = "/home/admin/webapp/package.json"
   }
 }

@@ -18,21 +18,17 @@ jobs:
           sudo mv packer /usr/local/bin/packer
           packer --version
         shell: bash
-
+        
       - name: Install packer plugins
         run: packer plugins install github.com/hashicorp/amazon
           
       - name: Check Packer Format
         run: |
           packer fmt -check=true -diff=true -write=false ./webapp.pkr.hcl
-
-      - name: Fail the Workflow if Not Formatted 
-        if: failure()
-        run: exit 1
-
+      
       - name: Check Packer Validate
         run: packer validate ./webapp.pkr.hcl
 
-      - name: Fail the Workflow if Not Validated
-        if: failure()
+      - name: Fail the Workflow if Not Formatted or Validated
+        if: failure() || failure()
         run: exit 1
