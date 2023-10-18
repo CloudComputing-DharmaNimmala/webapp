@@ -18,7 +18,7 @@ jobs:
           sudo mv packer /usr/local/bin/
           packer --version
       - name: Packer init
-        run: packer init ./webapp.pkr.hcl
+        run: packer plugins install -h
           
       - name: Check Packer Format
         run: |
