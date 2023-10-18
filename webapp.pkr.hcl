@@ -98,7 +98,7 @@ build {
   }
 
   provisioner "shell" {
-   
+
     inline = [
       "cd webapp && npm install"
     ]
