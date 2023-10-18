@@ -23,7 +23,6 @@ jobs:
       - name: Check Packer Format
         run: |
           packer fmt -check=true -diff=true -write=false ./webapp.pkr.hcl
-        continue-on-error: true
       
       - name: Check Packer Validate
         run: packer validate ./webapp.pkr.hcl
