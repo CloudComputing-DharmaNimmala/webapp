@@ -86,14 +86,14 @@ build {
   }
   provisioner "file" {
   source      = "dist/main.js"
-  destination = "/home/admin/webapp/dist/main.js"
+   destination = "/home/admin/webapp/dist/main.js"
   }
   provisioner "file" {
   source      = ".env"
-  destination = "/home/admin/webapp/.env"
+   destination = "/home/admin/webapp/.env"
   }
   provisioner "file" {
   source      = "package.json"
-  destination = "/home/admin/webapp/package.json"
+   destination = "/home/admin/webapp/package.json"
   }
 }

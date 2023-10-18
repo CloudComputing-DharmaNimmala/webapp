@@ -1,0 +1,28 @@
+name: Packer Format Check
+on:
+    pull_request:
+      branches:
+        - main
+jobs:
+  packer-format-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Install Packer
+        run: |
+          wget https://releases.hashicorp.com/packer/1.7.3/packer_1.7.3_linux_amd64.zip
+          unzip packer_1.7.3_linux_amd64.zip
+          sudo mv packer /usr/local/bin/
+          packer --version
+          
+      - name: Check Packer Format
+        run: |
+          packer fmt -check=true -diff=true -write=false .
+        continue-on-error: true
+
+      - name: Fail the Workflow if Not Formatted
+        if: failure()
+        run: exit 1
