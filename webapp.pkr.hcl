@@ -123,4 +123,3 @@ build {
       "sudo mv user.csv /opt/"
     ]
   }
-}
