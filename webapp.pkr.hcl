@@ -112,7 +112,7 @@ build {
     inline = [
       "cd webapp && npm install",
       "sudo mv user.csv /opt/",
-      "sudo mv webapp.service /lib/systemd/system/",
+      "sudo mv webapp.service /etc/systemd/system/",
       "sudo groupadd csye6225",
       "sudo useradd -s /bin/false -g csye6225 -d /opt/csye6225 -m csye6225",
       "sudo systemctl daemon-reload",
