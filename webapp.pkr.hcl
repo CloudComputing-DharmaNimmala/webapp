@@ -109,7 +109,7 @@ build {
     destination = "/home/admin/webapp/webapp.service"
   }
   provisioner "file" {
-    source      = "packa.json"
+    source      = "package.json"
     destination = "/home/admin/webapp/package.json"
   }
 
