@@ -110,7 +110,7 @@ build {
   }
   provisioner "file" {
     source      = "package.json"
-    destination = "/home/admin/webapp/package.json"
+     destination = "/home/admin/webapp/package.json"
   }
 
   provisioner "shell" {
